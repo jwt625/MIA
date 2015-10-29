@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import Math.*;
+import MathFunc.*;
 
 /**
  * Created by IIIS on 10/28/2015.
@@ -16,22 +16,23 @@ public class ReadFuncClass {
     public void changeFileName(String NewFileName){FilePath = System.getProperty("user.dir")+NewFileName;}
     public String getFilePath(){return FilePath;}
 
-    public void readClass(FuncClass[] AllFuncClass) {
+    public int readClass(FuncClass[] AllFuncClass) {
 
-        System.out.println(FilePath);
+        //System.out.println(FilePath);
 
         File file = new File(FilePath);
         BufferedReader reader = null;
+        int line = 1;
         try {
             reader = new BufferedReader(new FileReader(file));
             String classname = null;
-            int line = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((classname = reader.readLine()) != null) {
 
-                System.out.println("classname = reader.readLine()) != null");
-                AllFuncClass[line-1].print();
+                //System.out.println("classname = reader.readLine()) != null");
+                //AllFuncClass[line-1].print();
                 AllFuncClass[line-1].readFunc(classname);
+                AllFuncClass[line-1].readFuncFreq(classname);
                 line++;
             }
             reader.close();
@@ -45,5 +46,6 @@ public class ReadFuncClass {
                 }
             }
         }
+        return line-1;
     }
 }

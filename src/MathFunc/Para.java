@@ -1,4 +1,6 @@
-package Math;
+package MathFunc;
+
+import Others.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +17,7 @@ public class Para {
     int UseFreq;
     int NumOfValues;
     String[] AllParaValue;
+
     public Para(){
         ParaName="";
         ParaValue="";
@@ -22,7 +25,7 @@ public class Para {
         UseFreq=0;
         NumOfValues=0;
         AllParaValue=new String[20];
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 20; i++){
             AllParaValue[i]="";
         }
     }
@@ -33,6 +36,7 @@ public class Para {
     public void setParaValue(String NewValue){
         ParaValue = NewValue;
     }
+    public void setUseFreq(int freq){UseFreq=freq;}
     public void setAllParaValue(String[] NewValues){
         int NumOfValues = NewValues.length;
         for(int i = 0; i < NumOfValues; i++){
@@ -51,11 +55,13 @@ public class Para {
     public String getParaValue(){return ParaValue;}
     public String[] getAllParaValue(){return AllParaValue;}
     public boolean isShowName(){return ShowName;}
-    public void print(){System.out.println(ParaName);}
+    public void print(){
+        System.out.print("\t\t" + ParaName +" "+ UseFreq + "\n");
+    }
 
     public void loadPara(String upperpath, String paraname) {
 
-        System.out.println(paraname);
+        //System.out.println(paraname);
 
         ParaName=paraname;
         String FilePath = upperpath+"\\"+paraname+".txt";
@@ -64,6 +70,10 @@ public class Para {
         try {
             reader = new BufferedReader(new FileReader(file));
             String paravalue = null;
+            /*String[] allparavalue=new String[100];
+            for(int i = 0; i < 100; i++){
+                allparavalue[i]="";
+            }*/
             int line = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((paravalue = reader.readLine()) != null) {

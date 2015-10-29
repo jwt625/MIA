@@ -1,4 +1,6 @@
-package Math;
+package MathFunc;
+
+import Others.Others;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,15 +15,17 @@ public class MathFunc {
     Para[] AllPara;
     int NumOfPara;
     int UseFreq;
+
     public MathFunc(){
         FuncName="";
         AllPara=new Para[100];
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 100; i++){
             AllPara[i]=new Para();
         }
         NumOfPara=0;UseFreq=0;}
 
     public void oneUse(){UseFreq++;}
+    public void setUseFreq(int freq){UseFreq=freq;}
     public void setFuncName(String funcname){FuncName=funcname;}
     public void setAllPara(Para[] NewParas){
         NumOfPara = NewParas.length;
@@ -38,14 +42,19 @@ public class MathFunc {
     public int getNumOfPara(){return NumOfPara;}
     public String getFuncName(){return FuncName;}
     public Para[] getAllPara(){return AllPara;}
-    public void print(){System.out.println(FuncName);}
+    public void print(){
+        System.out.print("\t"+FuncName+" "+UseFreq+"\n\t\tParameters:\n");
+        for(int i = 0; i < NumOfPara; i++){
+            AllPara[i].print();
+        }
+    }
 
-    public void readPara(String classname, String funcname) {
+    public void readPara(String upperpath, String funcname) {
 
-        System.out.println(funcname);
+        //System.out.println(funcname);
 
         FuncName=funcname;
-        String FilePath = System.getProperty("user.dir")+"\\"+classname+"\\"+funcname+"\\"+funcname+".txt";
+        String FilePath = upperpath+"\\"+funcname+"\\"+funcname+".txt";
         File file = new File(FilePath);
         BufferedReader reader = null;
         try {
@@ -54,8 +63,38 @@ public class MathFunc {
             int line = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((paraname = reader.readLine()) != null) {
-                AllPara[line-1].loadPara(System.getProperty("user.dir")+"\\"+classname+"\\"+funcname, paraname);
+                AllPara[line-1].loadPara(upperpath+"\\"+funcname, paraname);
                 NumOfPara++;
+                line++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+    }
+    public void readParaFreq(String upperpath, String funcname) {
+        Others otherFuncs=new Others();
+
+        //System.out.println(funcname);
+
+        FuncName=funcname;
+        String FilePath = upperpath+"\\"+funcname+"\\"+funcname+"freq.txt";
+        File file = new File(FilePath);
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String freq = null;
+            int line = 1;
+            // 一次读入一行，直到读入null为文件结束
+            while ((freq = reader.readLine()) != null) {
+                AllPara[line-1].setUseFreq(otherFuncs.String2int(freq));
                 line++;
             }
             reader.close();
