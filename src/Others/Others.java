@@ -1,5 +1,10 @@
 package Others;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Created by IIIS on 10/29/2015.
  */
@@ -16,6 +21,38 @@ public class Others {
             num = num + (StrToConvert.charAt(i)-'0')*power;
         }
         return num;
+    }
+    public boolean hasSubClass(String FilePath){
+
+        File file = new File(FilePath);
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String funcname = null;
+            int line = 1;
+            // 一次读入一行，直到读入null为文件结束
+            while ((funcname = reader.readLine()) != null) {
+                line++;
+                if(funcname.charAt(0)=='1') {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        return false;
     }
     public static void main(String[] args){
         Others b=new Others();
