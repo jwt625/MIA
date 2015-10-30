@@ -18,10 +18,6 @@ public class MathFunc {
 
     public MathFunc(){
         FuncName="";
-        AllPara=new Para[100];
-        for(int i = 0; i < 100; i++){
-            AllPara[i]=new Para();
-        }
         NumOfPara=0;UseFreq=0;}
 
     public void oneUse(){UseFreq++;}
@@ -34,7 +30,13 @@ public class MathFunc {
         }
     }
     public void addPara(Para NewPara){
-        AllPara[NumOfPara] = NewPara;
+        //need modification
+        Para[] tempPara = new Para[NumOfPara+1];
+        for(int i = 0; i < NumOfPara; i++){
+            tempPara[i]=AllPara[i];
+        }
+        AllPara=null;
+        AllPara=tempPara;
         NumOfPara++;
     }
 
@@ -63,7 +65,6 @@ public class MathFunc {
             int line = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((paraname = reader.readLine()) != null) {
-                AllPara[line-1].loadPara(upperpath+"\\"+funcname, paraname);
                 NumOfPara++;
                 line++;
             }
@@ -74,6 +75,36 @@ public class MathFunc {
             if (reader != null) {
                 try {
                     reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+
+
+        AllPara=new Para[NumOfPara];
+        for(int i = 0; i < NumOfPara; i++){
+            AllPara[i]=new Para();
+        }
+
+
+        File file2 = new File(FilePath);
+        BufferedReader reader2 = null;
+        try {
+            reader2 = new BufferedReader(new FileReader(file2));
+            String paraname = null;
+            int line = 1;
+            // 一次读入一行，直到读入null为文件结束
+            while ((paraname = reader2.readLine()) != null) {
+                AllPara[line-1].loadPara(upperpath+"\\"+funcname, paraname);
+                line++;
+            }
+            reader2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader2 != null) {
+                try {
+                    reader2.close();
                 } catch (IOException e1) {
                 }
             }

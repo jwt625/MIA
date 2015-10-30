@@ -1,6 +1,6 @@
 package MathFunc;
 
-import Others.*;
+//import Others.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,7 +36,9 @@ public class Para {
     public void setParaValue(String NewValue){
         ParaValue = NewValue;
     }
-    public void setUseFreq(int freq){UseFreq=freq;}
+    public void setUseFreq(int freq){
+        UseFreq=freq;
+    }
     public void setAllParaValue(String[] NewValues){
         int NumOfValues = NewValues.length;
         for(int i = 0; i < NumOfValues; i++){
